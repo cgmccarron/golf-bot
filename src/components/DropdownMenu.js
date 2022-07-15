@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import onClickOutside from "react-onclickoutside";
+import React, { useState } from "react";
 import { useDocContext, useDocUpdateContext } from "./DocProvider";
 
 function Dropdown({ title, items = [], docValue, multiSelect = false }) {
@@ -8,14 +7,12 @@ function Dropdown({ title, items = [], docValue, multiSelect = false }) {
   const [open, setOpen] = useState(false);
   const [selection, setSelection] = useState([]);
   const toggle = () => setOpen(!open);
-  Dropdown.handleClickOutside = () => setOpen(false);
 
-  function handleOnClick(item) {
+  const handleOnClick = (item) => {
     if (!selection.some((current) => current.id === item.id)) {
       if (!multiSelect) {
         setSelection([item]);
         toggleContext(docContext, docValue, item.value);
-        console.log(docContext);
       } else if (multiSelect) {
         setSelection([...selection, item]);
       }
@@ -25,9 +22,10 @@ function Dropdown({ title, items = [], docValue, multiSelect = false }) {
         (current) => current.id !== item.id
       );
       setSelection([...selectionAfterRemival]);
+      toggleContext(docContext, docValue, "");
     }
     toggle(!open);
-  }
+  };
 
   function isItemInSelection(item) {
     if (selection.find((current) => current.id === item.id)) {
@@ -67,8 +65,4 @@ function Dropdown({ title, items = [], docValue, multiSelect = false }) {
     </div>
   );
 }
-
-const clickOutsideConfig = {
-  handleClickOutside: () => Dropdown.handleClickOutside,
-};
-export default onClickOutside(Dropdown, clickOutsideConfig);
+export default Dropdown;

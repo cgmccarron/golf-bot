@@ -13,14 +13,13 @@ export function useDocUpdateContext() {
 
 export function DocProvider({ children }) {
   const [docObject, setDocObject] = useState({
-    course: "none",
-    weekday: "none",
-    timeslot: "none",
+    course: "",
+    weekday: "",
+    timeslot: "",
     when_requested: null,
   });
 
   function updateDoc(_prevDoc, _docValue, _value) {
-    console.log(_value);
     setDocObject((_prevDoc) => ({
       ..._prevDoc,
       ...{ [_docValue]: _value },
