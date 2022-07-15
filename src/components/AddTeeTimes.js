@@ -4,14 +4,17 @@ import { collection, addDoc } from "firebase/firestore";
 
 export default function AddTeeTime() {
   const [title, setTitle] = React.useState("");
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (title != "") {
-      await addDoc(collection(db, "title"), {
-        title,
-        complted: false,
-      });
+    if (title !== "") {
+      const dbRef = collection(db, "golf-times");
+      const data = {
+        course: "stoneranch",
+        weekday: title,
+        timeslot: 0,
+      };
+      await addDoc(dbRef, data);
+      console.log(title);
       setTitle("");
     }
   };
@@ -26,7 +29,7 @@ export default function AddTeeTime() {
         />
       </div>
       <div className="btn_container">
-        <button>Add</button>
+        <button type="submit">Add</button>
       </div>
     </form>
   );
