@@ -20,10 +20,19 @@ export function DocProvider({ children }) {
   });
 
   function updateDoc(_prevDoc, _docValue, _value) {
-    setDocObject((_prevDoc) => ({
-      ..._prevDoc,
-      ...{ [_docValue]: _value },
-    }));
+    if (_docValue !== "all") {
+      setDocObject((_prevDoc) => ({
+        ..._prevDoc,
+        ...{ [_docValue]: _value },
+      }));
+    } else {
+      setDocObject(() => ({
+        course: "",
+        weekday: "",
+        timeslot: "",
+        when_requested: null,
+      }));
+    }
   }
 
   return (

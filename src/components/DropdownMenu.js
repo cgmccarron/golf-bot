@@ -34,6 +34,28 @@ function Dropdown({ title, items = [], docValue, multiSelect = false }) {
     return false;
   }
 
+  let dynamicContent = (selection) => {
+    if (selection.length > 0) {
+      return {
+        backgroundColor: "#2e7d32",
+        color: "white",
+        justifyContent: "space-around",
+        borderColor: "white",
+      };
+    } else {
+      return { justifyContent: "center" };
+    }
+  };
+
+  let dynamicList = (item) => {
+    if (isItemInSelection(item)) {
+      return {
+        justifyContent: "space-around",
+      };
+    } else {
+      return { justifyContent: "center" };
+    }
+  };
   return (
     <div className="dd-wrapper">
       <div
@@ -42,6 +64,7 @@ function Dropdown({ title, items = [], docValue, multiSelect = false }) {
         role="button"
         onKeyPress={() => toggle(!open)}
         onClick={() => toggle(!open)}
+        style={dynamicContent(selection)}
       >
         <div className="dd-header__title">
           <p className="dd-header__title--bold"> {title}</p>
@@ -54,7 +77,11 @@ function Dropdown({ title, items = [], docValue, multiSelect = false }) {
         <ul className="dd-list">
           {items.map((item) => (
             <li className="dd-list-item" key={item.id}>
-              <button type="button" onClick={() => handleOnClick(item)}>
+              <button
+                type="button"
+                onClick={() => handleOnClick(item)}
+                style={dynamicList(item)}
+              >
                 <span>{item.value}</span>
                 <span>{isItemInSelection(item) && "Selected"}</span>
               </button>
